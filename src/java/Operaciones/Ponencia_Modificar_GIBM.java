@@ -1,0 +1,92 @@
+package Operaciones;
+
+import java.util.Vector;
+import java.sql.*;
+
+public class Ponencia_Modificar_GIBM {
+
+    private String ID;
+    private String Nombre_Pon_GIBM;
+    private String Año;
+    private String Ciudad;
+    private String Pais;
+    private String Grupo;
+
+    public static synchronized Vector DatosGIBM(String Pon) throws SQLException {
+        Vector Ponencias = null;
+        DBManager dbm = new DBManager();
+        Connection con = dbm.getConnection();
+
+        PreparedStatement st = con.prepareStatement("SELECT * FROM ponencias WHERE Grupo='01' AND ID= ?");
+        st.setString(1, Pon);
+        ResultSet rs = st.executeQuery();
+        Ponencias = new Vector();
+
+        if (rs.next()) {
+            Ponencias.add(new Ponencia_Modificar_GIBM(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+        }
+        rs.close();
+        st.close();
+        dbm.closeConnection(con);
+        return Ponencias;
+
+    }
+
+    public Ponencia_Modificar_GIBM(String ID, String Nombre_Pon_GIBM, String Año, String Ciudad, String Pais, String Grupo) {
+        this.ID = ID;
+        this.Nombre_Pon_GIBM = Nombre_Pon_GIBM.toUpperCase();
+        this.Año = Año.toUpperCase();
+        this.Ciudad = Ciudad.toUpperCase();
+        this.Pais = Pais.toUpperCase();
+        this.Grupo = Grupo.toUpperCase();
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getNombre_Pon_GIBM() {
+        return Nombre_Pon_GIBM;
+    }
+
+    public void setNombre_Pon_GIBM(String Nombre_Pon_GIBM) {
+        this.Nombre_Pon_GIBM = Nombre_Pon_GIBM;
+    }
+
+    public String getAño() {
+        return Año;
+    }
+
+    public void setAño(String Año) {
+        this.Año = Año;
+    }
+
+    public String getCiudad() {
+        return Ciudad;
+    }
+
+    public void setCiudad(String Ciudad) {
+        this.Ciudad = Ciudad;
+    }
+
+    public String getPais() {
+        return Pais;
+    }
+
+    public void setPais(String Pais) {
+        this.Pais = Pais;
+    }
+
+    public String getGrupo() {
+        return Grupo;
+    }
+
+    public void setGrupo(String Grupo) {
+        this.Grupo = Grupo;
+    }
+
+}
